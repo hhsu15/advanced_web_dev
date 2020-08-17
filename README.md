@@ -1,5 +1,11 @@
 # advanced web dev
 
+## Update npm to fix various issues
+
+```bash
+npm audit fix --force
+```
+
 ## SSH
 
 Secure Shell protocol.
@@ -186,3 +192,112 @@ DOM -> CSSOM (CSS object model) -> Render Tree -> Layout -> Paint
   - you can specify the location and device where you want to test the performance from
 - google PageSpeed Tools
   - developer tools
+
+## React tools
+
+### Styling with React
+
+- [glamorous](https://glamorous.rocks/)
+- [style-components](https://styled-components.com/)
+- [css modules](https://github.com/css-modules/css-modules)
+
+### React UI components
+
+- [Material UI](https://material-ui.com/)
+- [smentic UI](https://react.semantic-ui.com/)
+
+### Parcel
+
+- a faster bundle tool/package. An alternative to webpack
+
+### You can host your webpage in github using react:
+
+step by step instructions:
+https://create-react-app.dev/docs/deployment/#github-pages-https-pagesgithubcom
+
+## Performace 2
+
+### Code Splitting
+
+Refer to `splitting-code` file. Essentially, if we can do some dynamic component return using
+
+```javascript
+// use import will give you a promise of component
+import('src/YourComponent').then(YourComponent=>{...your stuff});
+```
+
+Since dealing with promise (.then()) is tiring we can make an HOC for AsyncComponent. Looks something like this.
+
+```javascript
+const asyncCompnent = importComponent => {
+  class AsyncComponent extends Component {
+    // state that you need
+    state = {
+      myState: null,
+      component: null
+    };
+    async componentDidMount() {
+      const component = await importComponent();
+      this.setState({ component: component.default });
+    }
+
+    render() {
+      return this.state.compoent ? (
+        <this.state.component {...this.props} />
+      ) : null;
+    }
+  }
+
+  return AsyncComponent;
+};
+
+export default asyncComponent;
+```
+
+With latest react version you can just use React.lazy to implement code splitting.
+
+### React_perf
+
+[React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+You can use this path for react app
+
+```
+localhost:3000/?react_perf
+```
+
+In Chrome developer tool, you can then go to the performance tab, record some actions and then zoom in to see the render tree.
+
+### why-did-you-update
+
+A library that puts your console when React is making unnecessary updates.
+
+[github link](github.com/maick/why-did-you-update)
+
+```javascript
+import React from 'react';
+
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React);
+}
+```
+
+### Tree-shaking
+
+Refer to this [article](https://developers.google.com/web/fundamentals/performance/optimizing-javascript/tree-shaking/)
+
+Basically, remove the unused codes from your code base.
+
+## Progressive Web App (PWA)
+
+With progressive web app, you can make your web app work like a native apps (mobile apps) where it works even in offline. So you don't even need to get approved from app store or android.
+
+This is fairly new but growing fast.
+
+[PWA checklist](https://developers.google.com/web/progressive-web-apps/checklist)
+
+Implement HTTPs using [Let's Encript](https://letsencrypt.org/docs/)
+
+### Dev tool
+
+[Lighthouse](https://developers.google.com/web/tools/lighthouse) is a chrome plugin to generate report for your web. You can get scores for your progressive web app.
