@@ -5,6 +5,7 @@ import Page1 from './components/Page1';
 //import Page2 from './components/Page2';
 //import Page3 from './components/Page3';
 // import AsyncComponent from './components/AsyncComponent';
+import ExportCsv from './components/CsvExporter';
 
 // use react lazy
 const Page2Lazy = React.lazy(() => import('./components/Page2'));
@@ -39,7 +40,12 @@ class App extends React.Component {
   render() {
     // version 3 Using react.lazy
     if (this.state.route === 'page1') {
-      return <Page1 onRouteChange={this.onRouteChange} />;
+      return (
+        <div>
+          <Page1 onRouteChange={this.onRouteChange} />
+          <ExportCsv />
+        </div>
+      );
     } else if (this.state.route === 'page2') {
       return (
         // you need to use Suspense to wrap the lazy component with fallback
